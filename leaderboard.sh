@@ -1,11 +1,5 @@
-#!/bin/bash
-
 file="history.csv"
-
-
 curr_game=$(tail -1 "$file" | cut -d "," -f4)
-
-
 player_list=()
 while IFS=',' read -r winner loser date game; do
     if [[ "$game" == "$curr_game" ]]; then
@@ -13,8 +7,6 @@ while IFS=',' read -r winner loser date game; do
         player_list+=("$loser")
     fi
 done < <(tail -n +2 "$file")
-
-
 unique_list=()
 for p in "${player_list[@]}"; do
     added=false
@@ -28,11 +20,7 @@ for p in "${player_list[@]}"; do
         unique_list+=("$p")
     fi
 done
-
-
 touch tempfile.txt
-
-
 for pl in "${unique_list[@]}"; do
     win_count=0
     lose_count=0
@@ -46,19 +34,14 @@ for pl in "${unique_list[@]}"; do
             fi
         fi
     done < <(tail -n +2 "$file")
-
     if [[ "$lose_count" -eq 0 ]]; then
         wlratio=9999
     else
         wlratio=$((win_count / lose_count))
     fi
-
     echo "$pl $win_count $lose_count $wlratio" >> tempfile.txt
-
 done
-
 SORT_BY=$1
-
  if [ "$SORT_BY" = "wins" ]; then
             SORT_KEY=$win_count
         elif [ "$SORT_BY" = "losses" ]; then
@@ -66,23 +49,17 @@ SORT_BY=$1
         else
             SORT_KEY=$RATIO_NUMBER
         fi
-
         # Save everything to the temp file as one line
         # Format: sortkey|playername|wins|losses|ratio
         echo "$SORT_KEY|$PLAYER|$WIN_COUNT|$LOSS_COUNT|$RATIO_TEXT" >> "$TEMP_RESULTS_FILE"
-
     done  
-
  
    
     while IFS='|' read -r sort_key player_name wins losses ratio; do
         printf "  %-15s %4s  %6s  %6s\n" "$player_name" "$wins" "$losses" "$ratio"
     done < <(sort -t'|' -k1 -rn "$TEMP_RESULTS_FILE")
-
     rm -f "$TEMP_RESULTS_FILE"
-
 done  
-
 echo ""
 echo "==============================="
 echo ""
@@ -91,9 +68,9 @@ file = "history.csv"
 curr_game=tail -1 $file | cut -d "," -f4
 player_list=()
 while IFS=',' read -r winner loser date game; do
-        if [[ $game==$curr_game ]];then
-                player_list+=("$winner")
-                player_list+=("$loser")
-        fi
+        if [[ $game==$curr_game ]];then
+                player_list+=("$winner")
+                player_list+=("$loser")
+        fi
 done << (tail -n +2 "$file")
 unique_list=()

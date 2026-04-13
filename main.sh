@@ -1,5 +1,6 @@
 #!/bin/bash
 CRED_FILE="./users.tsv"
+touch $CRED_FILE
 
 hash_pass() {
     echo -n "$1" | sha256sum | awk '{print $1}'
@@ -18,12 +19,12 @@ register_player() {
     local reg_password="$2"
     local hashed=$(hash_pass "$reg_password")
     if user_exist "$reg_username" ; then
-        echo "Username already taken! Try a different one."
+        echo "Username already taken! Try a different one." >&2
         return 1
     fi
 
     echo -e "$reg_username\t$hashed" >> "$CRED_FILE"
-    echo "Registered Yayy! Welcome $reg_username"
+    echo "Registered Yayy! Welcome $reg_username" >&2
     return 0
 }
 login_player() {
@@ -33,10 +34,10 @@ login_player() {
     local stored=$(stored_hash_pass "$username")
 
     if [[ "$entered_hash" == "$stored" ]]; then
-        echo "Login done!Welcome back $username,lesss goo!"
+        echo "Login done!Welcome back $username,lesss goo!" >&2
         return 0
     else
-        echo "Damnn!wrong password,try again.:<"
+        echo "Damnn!wrong password,try again.:<" >&2
         return 1
     fi
 }
@@ -48,19 +49,19 @@ authenticate() {
     local password
 
     while [[ "$authenticated" == "false" ]]; do
-        echo ""
-        read -p "Player $player_num -Enter username :" username
-        read -s -p "Player $player_num - Enter password :" password
-        echo ""  
+        echo "" >&2
+        read -p "Player $player_num -Enter username :" username >&2
+        read -s -p "Player $player_num - Enter password :" password >&2
+        echo "" >&2
         if [[ "$username" == "$other_player" ]]; then
-            echo "Ahh!someone else has the same username...Try a different account."
+            echo "Ahh!someone else has the same username...Try a different account." >&2
         continue
         fi
 
         if user_exist "$username" ; then
         if login_player "$username" "$password" ; then
-        authenticated=true              
-        echo"The username already exists try a new one!!"        
+        authenticated=true
+        echo "Login successful!" >&2
         fi
         else
 
@@ -71,7 +72,7 @@ authenticate() {
                 authenticated=true   
             fi
             else
-                echo "Patientlyy..try again."
+                echo "Patientlyy..try again." >&2
         
             fi
         fi

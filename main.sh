@@ -59,10 +59,11 @@ authenticate() {
 
         if user_exist "$username" ; then
         if login_player "$username" "$password" ; then
-        authenticated=true                      
+        authenticated=true              
+        echo"The username already exists try a new one!!"        
         fi
         else
- echo "Oh damn!The username don't exist!?"
+
             read -p "Do you want to register? (yes/no): " desire
 
             if [[ "$desire" == "yes" ]]; then

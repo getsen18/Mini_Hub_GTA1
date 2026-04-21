@@ -8,7 +8,7 @@ from games import tictactoe
 from games import othello
 from games import connect4
 if len(sys.argv) != 3:
-   print("Try givin correct command lil bro")
+   print("Try giving correct command lil bro")
    sys.exit()
 pygame.init()
 screen=pygame.display.set_mode((0,0),pygame.FULLSCREEN)

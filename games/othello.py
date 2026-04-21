@@ -1,7 +1,8 @@
 import numpy as np
 import pygame
 import sys
-from game import Basegame
+import os
+from base_class import Basegame
 EMPTY=0
 PLAYER_1=1
 PLAYER_2=2
@@ -18,15 +19,14 @@ MARGIN_SIZE = 40
 TOT_SIZE    = MARGIN_SIZE + GRID_SIZE * BOX_SIZE
 WIDTH  = GRID_SIZE * BOX_SIZE + 2 * MARGIN_SIZE
 HEIGHT = GRID_SIZE * BOX_SIZE + 2 * MARGIN_SIZE + 80
-class Othello:
- def make_board(Basegame):
+class Othello(Basegame):
     def __init__(self,p1,p2,screen):
       super().__init__(p1,p2,8)
       self.screen=screen
-      self.board[3][3]=1
-      self.board[4][4]=1
-      self.board[3][4]=2
-      self.board[4][3]=2
+      self.board[3][3]=2
+      self.board[4][4]=2
+      self.board[3][4]=1
+      self.board[4][3]=1
       self.cell_size = 70
       self.offset = 50
       self.font = pygame.font.SysFont('Arial', 20, bold=True)
@@ -36,7 +36,7 @@ class Othello:
       directions=[(1,0),(-1,0),(1,1),(-1,-1),(0,1),(0,-1),(-1,1),(1,-1)]
       for i in range(self.size):
        for j in range(self.size):
-         if self.board != 0:
+         if self.board[i][j] != 0:
            continue
          for dr,dc in directions:
            nr=i+dr
@@ -46,7 +46,7 @@ class Othello:
                if self.board[nr][nc]==0:
                  break
                if self.board[nr][nc]==player:
-                 moves.append(i,j)
+                 moves.append((i,j))
                  break
                nr=nr+dr
                nc=nc+dc
@@ -64,18 +64,16 @@ class Othello:
         nr=r+dr
         nc=c+dc
         while 0<=nr<self.size and 0<=nc<self.size and self.board[nr][nc]==opponent:
-          flip.append(nr,nc)
+          flip.append((nr,nc))
           nr=nr+dr
           nc=nc+dc
         if 0<=nr<self.size and 0<=nc<self.size and self.board[nr][nc]==self.turn:
           for i,j in flip:
             self.board[i][j]=self.turn
-        self.switch_turn()
-        if not self.get_valid_moves(self.player):
+      self.switch_turn()
+      if not self.get_valid_moves(self.turn):
           self.switch_turn()
-          if not self.get_valid_moves(self.player):
-            self.check_win_condition()
-        return True
+      return True
     def draw(self):
       self.screen.fill((40,40,40))
       pygame.draw.rect(self.screen,(34,139,34),(self.offset,self.offset,560,560))
@@ -92,7 +90,7 @@ class Othello:
         txt = f"{self.p1}: {p1_s} | {self.p2}: {p2_s} | Turn: {self.p1 if self.turn==1 else self.p2}"
         self.screen.blit(self.font.render(txt, True, (255, 255, 255)), (self.offset, 30))
     def check_win(self):
-      if not get_valid_moves(1) and not get_valid_moves(2):
+      if not self.get_valid_moves(1) and not self.get_valid_moves(2):
         c1=np.sum(self.board==1)
         c2=np.sum(self.board==2)
         if c1>c2:
@@ -101,11 +99,11 @@ class Othello:
           return self.p2
         return "Draw"
       return None
-    def main():
+def main():
       pygame.init()
       p1=sys.argv[1]
       p2=sys.argv[2]
-      screen=screen.display.set_mode((720,720))
+      screen=pygame.display.set_mode((720,720))
       pygame.display.set_caption("OTHELLO")
       game=Othello(p1,p2,screen)
       clock=pygame.time.Clock()
@@ -118,7 +116,8 @@ class Othello:
             mx,my=pygame.mouse.get_pos()
             c=(mx-game.offset) // 70
             r=(my-game.offset) // 70
-            game.make_move(r,c)
+            if 0<=c<8 and 0<=r<8:
+             game.make_move(r,c)
         game.draw()
         winner=game.check_win()
         if winner:
@@ -127,8 +126,8 @@ class Othello:
           sys.exit()
         pygame.display.flip()
         clock.tick(60)
-    if __name__=="__main__":
-      main()
+if __name__=="__main__":
+     main()
 
 
    

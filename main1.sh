@@ -62,7 +62,7 @@ authenticate() {
         authenticated=true                      
         fi
         else
- 
+ echo "Oh damn!The username don't exist!?"
             read -p "Do you want to register? (yes/no): " desire
 
             if [[ "$desire" == "yes" ]]; then

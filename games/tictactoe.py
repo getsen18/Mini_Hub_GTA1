@@ -42,12 +42,12 @@ def check_winner(board, player):
     if np.any(verti == WIN_LENGTH):
         return True
 
-    # main diagonal (top-left to bottom-right)
+    # main diagonal
     diag = sum(b[k:n+k, k:n+k] for k in range(WIN_LENGTH))
     if np.any(diag == WIN_LENGTH):
         return True
 
-    # anti-diagonal (top-right to bottom-left)
+    # anti-diagonal 
     b_flip = np.fliplr(b)
     adiag  = sum(b_flip[k:n+k, k:n+k] for k in range(WIN_LENGTH))
     if np.any(adiag == WIN_LENGTH):
@@ -129,12 +129,12 @@ def main():
 
                         if check_winner(board, current_player):
                             name     = "1" if current_player == PLAYER_1 else "2"
-                            status   = f"Player {name} WINS!   press R to restart"
+                            status   = f"Yayyy !! Player {name} WINS!   press R to restart"
                             status_c = YELLOW
                             game_over = True
 
                         elif not np.any(board == EMPTY):
-                            status   = "It's a DRAW!   press R to restart"
+                            status   = "Oh gawdd! It's a DRAW! press R to restart"
                             status_c = GRAY
                             game_over = True
 

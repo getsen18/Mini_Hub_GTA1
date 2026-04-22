@@ -75,7 +75,7 @@ while True:
    color=(0,125,255) if btn3.collidepoint(mouse_pos) else (0,80,100)
    pygame.draw.rect(screen,color,btn3,border_radius=8)
    screen.blit(font_small.render("CONNECT4",True,(255,255,255)), btn3.move(40,10))
-
+   
    color=(0,125,255) if btn4.collidepoint(mouse_pos) else (0,80,100)
    pygame.draw.rect(screen,color,btn4,border_radius=8)
    screen.blit(font_small.render("QUIT",True,(255,255,255)), btn4.move(70,10))

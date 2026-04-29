@@ -92,8 +92,4 @@ echo "Lets dig in playerss!!"
 echo "Starting game for $player1 vs $player2  Less gooo!! ENRIQUEEE!!"
 
 
-<<<<<<< HEAD
 python3 game.py "$player1" "$player2"
-=======
-python3 game.py "$player1" "$player2"
->>>>>>> Teenu

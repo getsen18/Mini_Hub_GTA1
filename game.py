@@ -4,7 +4,7 @@ import time
 import numpy as np
 import os
 import subprocess
-from games.base_class import Basegame
+from  games.base_class import Basegame
 from games import tictactoe
 from games import othello
 from games import connect4

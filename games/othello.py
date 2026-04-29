@@ -80,7 +80,8 @@ class Othello(Basegame):
       for r in range(self.size):
         for c in range(self.size):
           rect=pygame.Rect(self.offset+c*70,self.offset+r*70,70,70)
-          pygame.draw.rect(self.screen,(0,0,0),rect,1)
+          colr1=(255,255,0) if (r,c) in self.get_valid_moves(self.turn) else (0,0,0)
+          pygame.draw.rect(self.screen,colr1,rect,1)
           if self.board[r, c] != 0:
            color = (0, 0, 0) if self.board[r, c] == 1 else (255, 255, 255)
            pygame.draw.circle(self.screen, color, rect.center, 30)

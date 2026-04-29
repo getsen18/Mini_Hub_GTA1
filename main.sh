@@ -93,4 +93,4 @@ player2=$(authenticate 2 "$player1")  # pass player1's name so player2 can't reu
 echo "Lets dig in playerss!!" >&2
 echo "Starting game for $player1 vs $player2  Less gooo!! ENRIQUEEE!!" >&2
 
-python3 game.py "$player1" "$player2"  # hand off to the pygame hub with both player names
+py -3.10 game.py "$player1" "$player2"  # hand off to the pygame hub with both player names

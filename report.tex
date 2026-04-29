@@ -1,0 +1,199 @@
+\documentclass{article}
+\title{report}
+\author{Teenu Anand \& Geetha sri Koumudi}
+\date{\today}
+\begin{document}
+\maketitle
+\section{External Libraries}
+ None
+\section{Features}
+\begin{enumerate}
+    \item Secure SHA-256 authentication of players via Bash
+    \item Three GUI games: $10 \times 10$,$8 \times 8$Othello,$7 \times 7$ Connect Four
+    \item Displaying leaderboard after every game and data visualation using matplotlib
+    \item General class design that is common for all games.so that we can add new games without changing overall thing.
+    \item Interactive user interface(GUI) allows user to select games 
+\end{enumerate}
+\section{Game implementations}
+\subsection{Authentication system}
+The main.sh handles the user authentication system ensuring only registered players can access the game
+\begin{enumerate}
+    \item it also makes sure every player has different usernames and store them in users.tsv.
+    \item If a user exists,it triggers the login\_player.if not it offers registration for that player.
+    \item It also avoids Player2 having same name as Player1 to avoid identity conflicts. 
+    \item Upon successful authentication of both players it launches python game engine.
+\end{enumerate}
+\subsection{baseclass}
+baseclass handles some features common to all games like
+\begin{enumerate}
+    \item stores player names(p1,p2) and whose turn(self.turn) is it.
+    \item creates a gameboard in form of numpy array of size $n \times n$ initialised with empty cells
+    \item A method to switch turns(switch\_turn()) between players.
+    \item A method to save results of game in history.csv
+\end{enumerate}
+\subsection{tic-tac-toe}
+This $10 \times 10$ board game where two players draw X and O alternatively whoever first gets five X in a row wins
+\subsubsection{board setup}
+\begin{enumerate}
+    \item The board is initialised to be $10 \times 10$ grid using baseclass
+    \item All places are set to be empty
+\end{enumerate}
+\subsubsection{makemove}
+\begin{enumerate}
+    \item Checks if cell is empty
+    \item If valid,assigns the current player's mark to cell
+    \item Returns True if the move is succesful,otherwise False
+\end{enumerate}
+\subsubsection{win detection}
+\begin{enumerate}
+    \item The board is converted into binary matrix where 1 represents current player's positions and 0 represent all other cells
+    \item Function checks for 4 directions(horizontal,vertical,diagnol)
+    \item if any segment sums for 5,a win is detected
+    \item If there are no empty cells left on the board and no winner is found the game is declared draw
+\end{enumerate}
+\subsubsection{Rendering the board}
+It handles all the graphical updates
+\begin{enumerate}
+    \item Draws the grid lines and Displays PLayers marks X for player 1 and O for player 2
+    \item Displays the current game status(turn/winner/draw)
+    \item Uses dynamic background colors based on player turns 
+\end{enumerate}
+\subsubsection{End screen}
+\begin{enumerate}
+    \item Displays final result
+    \item Provides 2 options for user Play again(restarts the game) and Home(exists the game)
+    \item Uses mouse detection for button interaction
+\end{enumerate}
+\subsubsection{Main Game loop}
+The main function controls the execution flow
+\begin{enumerate}
+    \item Initialise the game window and fonts
+    \item Runs a loop that \begin{enumerate}
+        \item Handles user input(mouse clicks)
+        \item converts screen coordinates to board positions
+        \item Executes moves and checks for win/draw
+        \item Updates the display continously
+    \end{enumerate}
+    \item After the game is completed directs to the end screen
+\end{enumerate}
+\subsection{Othello}
+This 8X8 board game where 2 players take turns placing discs.when a move sandwitches opponent pieces,those pieces get flipped to the players pieces and the game ends when there are no moves are left
+\subsubsection{board setup}
+\begin{enumerate}
+    \item The board is initialised as $8 \times 8$ grid
+    \item The four central positions are filled with 2 discs for each player(standard starting configuration)
+\end{enumerate}
+\subsubsection{valid move detection}
+\begin{enumerate}
+    \item iterate through all emptycells
+    \item for each cell check 8 possible directions(horizontal,vertical,diagnol)
+    \item a move is valid if the adjacent cell is of opponent's piece and moving in that direction eventually reaches the current player's disc
+\end{enumerate}
+\subsubsection{making move}
+\begin{enumerate}
+    \item verifies if selectes move is valid
+    \item Places the player's disc on board(changing numpy values to 1 or 2 based on whose piece is it)
+    \item For each direction it collects opponents dics in a straight line and turns them into player's disc
+    \item switches after a move and if the player has no valid moves then the turn is skipped
+\end{enumerate}
+\subsubsection{drawing}
+\begin{enumerate}
+    \item Uses pygame to\begin{enumerate}
+        \item Draw the game board
+        \item Display discs(black/white)
+        \item Hoighlight valid moves
+    \end{enumerate}
+    \item Displays player scores and Current turn
+\end{enumerate}
+\subsubsection{Checking win}
+\begin{enumerate}
+    \item Game ends when both players dont have any move left
+    \item Higher score count player is declared as win
+\end{enumerate}
+\subsection{Connect4}
+This $7 \times 7$ board game drops discs from the top and whoever gets contionous 4 in any direction gets to win
+\subsubsection{Board configuration}
+\begin{enumerate}
+    \item The board is initialised by $7 \times 7$ grid
+    \item All are initialsed to 0
+    \item Discs are dropped vertically and occupy the lowest positons available in column 
+\end{enumerate}
+\subsubsection{Move validation}
+\begin{enumerate}
+    \item Checks if the topmost cell of column is empty
+    \item Ensures disc can be dropped in the selected column
+\end{enumerate}
+\subsubsection{Finding the next Open row}
+\begin{enumerate}
+    \item Iterates from the bottom of the column upwards
+    \item Returns the first available empty row
+\end{enumerate}
+\subsubsection{Dropping a disc}
+\begin{enumerate}
+    \item Uses nextopenrow() to determine placement
+    \item Assigns the current player's value to the identified cell
+\end{enumerate}
+\subsubsection{win detection}
+\begin{enumerate}
+    \item The board is converted into a binary matrix where:
+    \begin{enumerate}
+        \item 1 represents the current player's discs
+        \item 0 represents all other cells
+    \end{enumerate}
+    \item The function checks for 4 directions(horizontal,vertical,main diagnol,anti diagnol)
+    \item Uses numpy slicing and summation to efficiently detect sequences of length 4
+    \item Game ends in draw if all the board cells are filled and no win condition was satisfied
+\end{enumerate}
+\subsubsection{Rendering the game}
+\begin{enumerate}
+    \item Drawing the grid using blue rectangles
+    \item Rendering empty slots as black circles
+    \item Displaying player discs:
+    \begin{enumerate}
+        \item Red for Player 1
+        \item Yellow for Player 2
+    \end{enumerate}
+    \item Positioning discs correctly to simulate gravity (bottom-up filling)
+\end{enumerate}
+\subsubsection{Main game loop}
+\begin{enumerate}
+    \item Initializes the game window and rendering parameters
+    \item Continously takes User's input(Mouse clicks)
+    \item Checks for Win condition
+    \item Displays the winner or draw message when the game ends
+\end{enumerate}
+\subsubsection{leaderboard appearing}
+\begin{enumerate}
+    \item Updates the users.tsv using the save result function and gives the leaderboard
+\end{enumerate}
+\subsection{leaderboard}
+Tracks and ranks player performance across games
+\begin{enumerate}
+    \item History.csv contains details of all the games(stored in form of comma seperated winner,loser,game,date)
+    \item while showing leaderboard to interface it is sorted based on user's demand(win,lose,$\frac{win}{loss}$ratio)
+    
+\end{enumerate}
+\section{Hurdles}
+\begin{enumerate}
+    \item Implementing win detection across multiple directions (horizontal, vertical, diagonal) .
+    \item merge took lot of tome to sort.due to us writing independently use of different variables and somrtimes different logics
+    \item coordinate transformations between screen space and board indices was error-prone.
+    \item Ensuring correct turn switching
+\end{enumerate}
+\section{How will we use 10 hours extra time}
+\begin{enumerate}
+    \item Would have tried to include a extra game like chess
+    \item Could have added extra design effects and made interface to look aesthetic
+    \item May be tried having a bot as an opponent 
+    \item Could have made dyanmic board sizes
+\end{enumerate}
+\section{Bibliography}
+\begin{enumerate}
+ \item NumPy Developers, NumPy Documentation.  
+    Available at: \texttt{https://numpy.org/doc/}
+
+ \item Pygame Community, Pygame Documentation.  
+    Available at: \texttt{https://www.pygame.org/docs/}
+\end{enumerate}
+
+\end{document}

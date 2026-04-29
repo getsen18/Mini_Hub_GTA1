@@ -1,4 +1,3 @@
-# Variables
 LATEX_COMPILER = pdflatex
 BIB_COMPILER   = bibtex
 FILENAME       = report

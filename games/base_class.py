@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import numpy as np
-class Basegame:
-   def __init__(self,p1,p2,size):
-      self.p1=p1
-      self.p2=p2
-      self.size=size
-      self.board=np.zeros((size,size))
-      self.turn=1
-   def switch_turn(self):
-      self.turn=2 if self.turn==1 else 1  
-   def player_name(self):
-      return self.p1 if self.turn==1 else self.p2
-=======
 import numpy as np   # numpy for the 2D board array
 import os            # for building the history file path
 import time          # for getting today's date
@@ -39,4 +25,3 @@ class Basegame:
         date = time.strftime("%Y-%m-%d")         # today's date in YYYY-MM-DD format
         with open(HISTORY_FILE, "a", newline='\n') as f:  # newline='\n' stops Windows translating \n → \r\n — bash can't strip the \r
             f.write(f"{winner},{loser},{date},{self.GAME_NAME}\n")  # one line per match
->>>>>>> 60d6bf5d94f2df3e840a2886850ffd15dbebdbd3

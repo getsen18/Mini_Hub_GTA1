@@ -95,7 +95,15 @@ echo "Starting game for $player1 vs $player2  Less gooo!! ENRIQUEEE!!" >&2
 
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 python3 game.py "$player1" "$player2"
 =======
 python3 game.py "$player1" "$player2"  # hand off to the pygame hub with both player names
 >>>>>>> 60d6bf5d94f2df3e840a2886850ffd15dbebdbd3
+=======
+<<<<<<< HEAD
+python3 game.py "$player1" "$player2"
+=======
+python3 game.py "$player1" "$player2"
+>>>>>>> 83484e441e0e164e497418b98ee032d10e551aa8
+>>>>>>> Teenu

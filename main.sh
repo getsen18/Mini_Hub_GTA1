@@ -91,5 +91,9 @@ player2=$(authenticate 2 "$player1")
 echo "Lets dig in playerss!!"
 echo "Starting game for $player1 vs $player2  Less gooo!! ENRIQUEEE!!"
 
+<<<<<<< HEAD
 
 python3 game.py "$player1" "$player2"
+=======
+py -3.10 game.py "$player1" "$player2"  # hand off to the pygame hub with both player names
+>>>>>>> a95479df58a3dc3d2f44c47eecdf19728ff9b70d

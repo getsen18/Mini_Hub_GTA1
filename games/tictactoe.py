@@ -28,6 +28,7 @@ MARGIN_SIZE = 40                                      # pixel gap around the boa
 TOT_SIZE    = MARGIN_SIZE + GRID_SIZE * BOX_SIZE      # pixel coordinate of the board's far edge
 WIDTH       = GRID_SIZE * BOX_SIZE + 2 * MARGIN_SIZE  # total window width
 HEIGHT      = GRID_SIZE * BOX_SIZE + 2 * MARGIN_SIZE + 80  # +80 for the status bar at the bottom
+MINES=[(3,4),(5,6),(4,3),(8,6),(8,7),(4,6),(2,4),(2,3),(4,4)]
 
 
 class TicTacToe(Basegame):
@@ -37,7 +38,10 @@ class TicTacToe(Basegame):
     def make_move(self, row, col):
         if self.board[row][col] != EMPTY:  # cell already taken — reject the move
             return False
-        self.board[row][col] = self.turn   # place current player's piece
+        if (row,col) in MINES:
+            self.board[row][col] = 3-self.turn   # place current player's piece
+        else:
+            self.board[row][col]=self.turn
         return True
 
     def check_win(self):

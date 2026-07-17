@@ -1,4 +1,4 @@
-# Mini Hub GTA1
+# Mini Game Hub GTA1
 
 A two-player game hub where both players log in through the terminal and then pick a game from a graphical menu. Play, see the leaderboard, check the stats, and decide if you want another round or call it a day.
 
